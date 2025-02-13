@@ -4,7 +4,7 @@ import { AppService } from './app.service'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ConfigModule } from '@nestjs/config'
 import { TodosModule } from './todos/todos.module'
-import { Todo } from './todos/todo.entity'
+import { join } from 'path'
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -15,7 +15,7 @@ import { Todo } from './todos/todo.entity'
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: 'LCB',
-      entities: [Todo],
+      entities: [join(process.cwd(), 'dist/**/*.entity.js')],
       synchronize: false,
     }),
     TodosModule,

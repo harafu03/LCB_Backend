@@ -6,4 +6,6 @@ export class Todo {
   id: number
   @Column()
   title: string
+  @Column()
+  content: string
 }
