@@ -4,21 +4,30 @@ import { AppService } from './app.service'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ConfigModule } from '@nestjs/config'
 import { TodosModule } from './todos/todos.module'
-import { join } from 'path'
+import { ChatModule } from './chat/chat.module'
+import { AuthModule } from './auth/auth.module'
+import { UsersModule } from './users/users.module'
+import { User } from './users/user.entity'
+import { Board } from './boards/board.entity'
+import { Todo } from './todos/todo.entity'
+import { BoardsModule } from './boards/boards.module'
+
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: process.env.DATABASE_USER,
-      password: process.env.DATABASE_PASSWORD,
-      database: 'LCB',
-      entities: [join(process.cwd(), 'dist/**/*.entity.js')],
-      synchronize: false,
+      type: 'sqlite',
+      database: 'db.sqlite',
+      entities: [User, Board, Todo],
+      synchronize: true,
     }),
     TodosModule,
+    ChatModule,
+    AuthModule,
+    UsersModule,
+    BoardsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
